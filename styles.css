@@ -1,0 +1,89 @@
+:root {
+  --navy: #1b2a4a; --navy-deep: #131f38; --teal: #0e7c86; --teal-soft: #e4f1f1;
+  --amber: #f2a93b; --bg: #f5f7f8; --card: #fff; --text: #1b2230; --muted: #64748b; --line: #e4e8ec;
+}
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; width: 100%; }
+body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); overflow: hidden; }
+#map { position: absolute; inset: 0; z-index: 1; }
+.leaflet-tile-pane { filter: saturate(0.55) brightness(1.03) contrast(0.97); }
+.leaflet-control-attribution { font-size: 9px; opacity: 0.6; }
+button { font-family: inherit; }
+
+header {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px 40px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(19,31,56,.92) 0%, rgba(19,31,56,0) 100%);
+}
+.brand { display: flex; align-items: center; gap: 9px; }
+.brand-mark { width: 26px; height: 26px; border-radius: 7px; background: var(--teal); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.brand-mark svg { width: 15px; height: 15px; }
+.brand-name { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 17px; color: #fff; letter-spacing: -0.01em; }
+.live-pill {
+  pointer-events: auto; display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+  color: #fff; font-size: 11.5px; font-weight: 600; letter-spacing: .02em;
+  padding: 6px 11px 6px 8px; border-radius: 99px; backdrop-filter: blur(6px); cursor: pointer;
+}
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #94a3b8; }
+.live-dot.waiting { background: var(--amber); }
+.live-dot.on { background: #4ade80; animation: dotpulse 1.8s infinite; }
+@keyframes dotpulse { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,.55); } 70% { box-shadow: 0 0 0 7px rgba(74,222,128,0); } 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); } }
+
+.connect-panel {
+  position: absolute; z-index: 30; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: var(--card); border-radius: 18px; padding: 22px 22px 20px;
+  box-shadow: 0 12px 40px rgba(19,31,56,.25); width: min(340px, 86vw);
+}
+.connect-panel h2 { font-family: 'Manrope', sans-serif; font-size: 16px; margin: 0 0 4px; }
+.connect-panel p { font-size: 12.5px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 5px; }
+.field input { width: 100%; padding: 9px 11px; border-radius: 9px; border: 1px solid var(--line); font-size: 13.5px; font-family: inherit; color: var(--text); outline: none; }
+.field input:focus { border-color: var(--teal); }
+.connect-btn, .demo-btn { width: 100%; padding: 11px; border-radius: 10px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13.5px; cursor: pointer; }
+.connect-btn { border: none; background: var(--navy); color: #fff; margin-top: 4px; }
+.connect-btn:hover { background: var(--navy-deep); }
+.demo-btn { border: 1px solid var(--line); background: #fff; color: var(--navy); margin-top: 8px; }
+.demo-btn:hover { border-color: var(--teal); color: var(--teal); }
+.connect-err { font-size: 11.5px; color: #c0392b; margin-top: 10px; line-height: 1.4; }
+
+.waiting-banner {
+  position: absolute; z-index: 20; top: 74px; left: 50%; transform: translateX(-50%);
+  background: var(--card); border-radius: 12px; padding: 10px 16px; max-width: 92vw;
+  box-shadow: 0 6px 20px rgba(19,31,56,.14); display: flex; align-items: center; gap: 9px;
+  font-size: 12.5px; font-weight: 600; color: var(--muted);
+}
+.spin { flex: none; width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--amber); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.sheet {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--card);
+  border-radius: 20px 20px 0 0; box-shadow: 0 -8px 30px rgba(19,31,56,.16); padding: 14px 18px 20px;
+}
+.sheet-handle { width: 36px; height: 4px; border-radius: 99px; background: var(--line); margin: 0 auto 14px; }
+.unit-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.unit-id { display: flex; align-items: center; gap: 10px; }
+.unit-badge { width: 38px; height: 38px; border-radius: 10px; background: var(--navy); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 12px; }
+.unit-name { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 15px; }
+.unit-company { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.status-tag { font-size: 11.5px; font-weight: 700; padding: 5px 10px; border-radius: 8px; background: var(--teal-soft); color: var(--teal); }
+.stats-row { display: flex; gap: 10px; }
+.stat { flex: 1; background: var(--bg); border-radius: 12px; padding: 10px 12px; }
+.stat-label { font-size: 10.5px; color: var(--muted); font-weight: 600; }
+.stat-value { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 19px; margin-top: 2px; }
+.stat-value.accent { color: var(--teal); }
+
+.recenter {
+  position: absolute; z-index: 25; right: 14px; bottom: 150px; border: none; cursor: pointer;
+  background: var(--navy); color: #fff; font-weight: 700; font-size: 12.5px;
+  padding: 9px 14px; border-radius: 99px; box-shadow: 0 4px 14px rgba(19,31,56,.3);
+}
+
+.bus-marker { position: relative; width: 26px; height: 26px; }
+.bus-ring { position: absolute; inset: 0; border-radius: 50%; background: rgba(14,124,134,.28); animation: ring 2s ease-out infinite; }
+@keyframes ring { 0% { transform: scale(.5); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
+.bus-core { position: absolute; inset: 5px; border-radius: 50%; background: var(--teal); border: 2.5px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.3); }
+
+@media (prefers-reduced-motion: reduce) { .bus-ring, .live-dot.on { animation: none; } }
